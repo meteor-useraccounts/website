@@ -1,3 +1,7 @@
+// Mostly stolen from @gadicc
+// https://github.com/gadicc/meteor-famous-views/blob/ff2b57672fbdf43dbfacead9782b69f87b10f7de/demo-base/server/atmosphere.js
+// https://github.com/gadicc/meteor-famous-views/blob/64ced77ff03e868be97c107d0f419d8b9763d91a/demo-base/client/more/plugins.js
+
 Packages = new Mongo.Collection('packages');
 InstallCounts = new Mongo.Collection('installCounts');
 
