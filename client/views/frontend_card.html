@@ -5,16 +5,16 @@
 			<div class="ui dimmer">
 				<div class="content">
 					<div class="center">
-						<a class="ui inverted button" href="https://useraccounts-{{name}}.meteor.com/" target="_blank">
+						<a class="ui inverted button" href="https://useraccounts-{{baseName}}.meteor.com/" target="_blank">
 							View Live
 						</a>
 					</div>
 				</div>
 			</div>
-			<img src="/imgs/{{name}}.gif">
+			<img src="/imgs/{{baseName}}.gif">
 		</div>
 		<div class="content">
-			<a class="header" href="{{pkgUrl}}" target="_blank">useraccounts:{{name}}</a>
+			<a class="header" href="{{pkgUrl}}" target="_blank">useraccounts:{{baseName}}</a>
 			<div class="meta">
 				<a class="group">v{{version}}</a>
 			</div>
@@ -23,7 +23,7 @@
 					{{{description}}}
 				</p>
 				<p class="cmd-line">
-					mrt add useraccounts:{{name}}
+					mrt add useraccounts:{{baseName}}
 				</p>
 			</div>
 		</div>
@@ -35,9 +35,9 @@
         {{/if}}
 			</a>
 			<div class="downloads">
-        {{#if installCount}}
+        {{#if count}}
 					<i class="cloud download icon"></i>
-					{{installCount}}
+					{{count}}
         {{/if}}
 			</div>
 		</div>

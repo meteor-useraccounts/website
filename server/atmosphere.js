@@ -1,50 +1,96 @@
+Frontends = new Meteor.Collection("frontends");
+
+var frontends = [
+	{baseName: "bootstrap"  , fUrl: "http://getbootstrap.com/"},
+	{baseName: "foundation" , fUrl: "http://foundation.zurb.com/"},
+	{baseName: "ionic"      , fUrl: "http://ionicframework.com/"},
+	{baseName: "polymer"    , fUrl: "https://www.polymer-project.org/"},
+	{baseName: "semantic-ui", fUrl: "http://semantic-ui.com/"},
+	{baseName: "ratchet"    , fUrl: "http://goratchet.com/"},
+	{baseName: "unstyled"   , fUrl: ""},
+];
+
+Frontends.remove({});
+_.each(frontends, function(frontend){
+	Frontends.insert(frontend);
+});
+
+
+
 /* Atmosphere integration */
+atmosphereDDP = DDP.connect('https://atmospherejs.com/');
 
-Packages = new Mongo.Collection('packages');
-InstallCounts = new Mongo.Collection('installCounts');
+var Packages = new Mongo.Collection('packages', { connection: atmosphereDDP });
+var InstallCounts = new Mongo.Collection('installCounts', { connection: atmosphereDDP });
 
-Packages.remove({});
-InstallCounts.remove({});
+atmosphereDDP.subscribe('packages/search', 'useraccounts', 20);
 
-atmosphere = {
-  subs: [],
-  cols: {}
-};
 
-atmosphere.con = DDP.connect('https://atmospherejs.com/');
-
-atmosphere.cols.packages = new Mongo.Collection('packages',
-  { connection: atmosphere.con });
-
-atmosphere.cols.installCounts = new Mongo.Collection('installCounts',
-  { connection: atmosphere.con });
-
-atmosphere.subs.push(atmosphere.con.subscribe('packages/search', 'useraccounts', 20));
-
-/*
-    _.each(_.pluck(plugins, 'name'), function(name) {
-      atmosphere.subs.push(
-        atmosphere.con.subscribe('package/installs', name));
-    });
-*/
-
-atmosphere.cols.packages.find().observeChanges({
+Packages.find().observeChanges({
   added: function(id, fields) {
-    Packages.insert(_.extend(fields, { _id: id }));
-    atmosphere.con.subscribe('package/installs', fields.name);
+    if (fields.authorName === "useraccounts") {
+      var frontend = Frontends.findOne({baseName: fields.baseName});
+      if (frontend) {
+        var newFields = _.pick(fields, 'authorName', 'baseName', 'name', 'starCount');
+        if (fields.latestVersion && fields.latestVersion.version) {
+          newFields.version = fields.latestVersion.version;
+        }
+        newFields.pkg_id = id;
+        Frontends.update(frontend._id, { $set: newFields });
+        atmosphereDDP.subscribe('package/installs', fields.name);
+      }
+    }
   },
-  changed: function(id, fields) { Packages.update(id, { $set: fields }); },
+  changed: function(id, fields) {
+    var frontend = Frontends.findOne({pkg_id: id});
+    if (frontend) {
+      var newFields = _.pick(fields, 'authorName', 'baseName', 'name', 'starCount');
+      if (fields.latestVersion && fields.latestVersion.version) {
+        newFields.version = fields.latestVersion.version;
+      }
+      Frontends.update(frontend._id, { $set: newFields });
+    }
+  },
   removed: function(id) {
-    Packages.remove(id);
     // TODO, could index and remove names that are removed
   }
 });
-atmosphere.cols.installCounts.find().observeChanges({
-  added: function(id, fields) { InstallCounts.insert(_.extend(fields, { _id: id })); },
-  changed: function(id, fields) { InstallCounts.update(id, { $set: fields }); },
-  removed: function(id) { InstallCounts.remove(id); }
+
+
+InstallCounts.find().observeChanges({
+  added: function(id, fields) {
+    var frontend = Frontends.findOne({name: fields.name});
+    if (frontend) {
+      var newFields = {
+        count: fields.count,
+        ic_id: id,
+      };
+      Frontends.update(frontend._id, { $set: newFields });
+    }
+  },
+  changed: function(id, fields) {
+    var frontend = Frontends.findOne({ic_id: id});
+    if (frontend) {
+      if (count in fields) {
+        Frontends.update(frontend._id, { $set: { count: fields.count } });
+      }
+    }
+  },
+  removed: function(id) {
+    // TODO, could index and remove names that are removed
+  }
 });
 
-//autopublish
-Meteor.publish('packages', function() { return Packages.find(); });
-Meteor.publish('installCounts', function() { return InstallCounts.find(); });
+Meteor.publish('frontends', function() {
+  return Frontends.find({}, {
+    fields: {
+        authorName: 1,
+        baseName: 1,
+        count: 1,
+        fUrl: 1,
+        name: 1,
+        starCount: 1,
+        version: 1,
+    }
+  });
+});

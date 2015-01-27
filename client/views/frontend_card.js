@@ -5,23 +5,22 @@ Template.frontendCard.rendered = function(){
 };
 
 var capName = function(){
-	return _.capitalize(this.name);
+	return _.capitalize(this.baseName);
 };
 
 Template.frontendCard.helpers({
 	capName: capName,
 	description: function(){
 		var text = '';
-		if (this.name === "unstyled") {
+		if (this.baseName === "unstyled") {
 			text += 'See it in action on <a href="http://crater.io/" target="_blank">Crater.io</a>';
 		}
 		else {
-			text += 'Styled for <a href="' + this.frontendUrl + '" target="_blank">' + capName.call(this) + '</a>';
+			text += 'Styled for <a href="' + this.fUrl + '" target="_blank">' + capName.call(this) + '</a>';
 		}
 		return text;
 	},
 	pkgUrl: function(){
-		var part = this.packageName.split(":");
-		return "https://atmospherejs.com/" + part[0] + "/" + part[1];
+		return "https://atmospherejs.com/" + this.authorName + "/" + this.baseName;
 	}
 });
