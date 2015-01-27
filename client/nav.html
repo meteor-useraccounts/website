@@ -1,0 +1,22 @@
+<template name="nav">
+  <div class="ui fixed transparent inverted main menu">
+    <div class="header item">UserAccounts</div>
+    {{!--
+    <a class="{{isActiveRoute regex='home'}} item" href="{{pathFor 'home'}}">Home</a>
+    <a class="{{isActiveRoute regex='private'}} item" href="{{pathFor 'private'}}">Private</a>
+    --}}
+    <div class="right menu">
+      <div class="item">
+        <a class="ui inverted button" id="gh-button" href="https://github.com/meteor-useraccounts" target="_blank">
+            <i class="github square icon"></i>
+          View on GitHub
+        </a>
+      </div>
+      <div class="item">
+        <a class="ui inverted button" id="atm-button" href="https://atmospherejs.com/useraccounts" target="_blank">
+          View on Atmosphere
+        </a>
+      </div>
+    </div>
+  </div>
+</template>

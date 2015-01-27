@@ -1,98 +1,75 @@
 <template name="home">
-  <div class="jumbotron">
-    <div class="container">
-      <h1>Meteor AccountsTemplates</h1>
-      <p>Easily add accounts templates into your
-        <a href="http://www.meteor.com/">Meteor</a> project, writing just a very few lines of code.
-        Heavily inspired by <a href="https://atmospherejs.com/package/accounts-entry">accounts-entry</a>,
-        hopefully more general and flexible. Al the logic, helpers, and events are provided by the base package
-        <a href="https://github.com/splendido/accounts-templates-core">accounts-templates-core</a> so that
-        final templates can be easily styled for different frameworks simply changing a few html templates.
-      </p>
-      <p>
-        Easy to configure, heavily customizable, it simply works!
-      </p>
-      <p><a class="btn btn-primary btn-lg" role="button" href="https://github.com/splendido/accounts-templates-core#documentation">Learn more &raquo;</a></p>
+  <div class="ui stackable three column page grid">
+    <div class="one column row">
+      <div class="column">
+        <h1 class="ui center aligned dividing header">
+          UserAccounts for Meteor
+          <div class="sub header">
+            Amazingly Customizable sign-in and sign-up Templates (and much more!)
+          </div>
+        </h1>
+      </div>
     </div>
+
+    <div class="one column row">
+      <div class="column">
+        <p>
+          User Accounts is a suite of packages for the
+          <a href="https://www.meteor.com/" target="_blank"> Meteor.js</a>
+          platform. It provides highly customizable user accounts UI templates
+          for many different front-end frameworks. At the moment it includes
+          forms for sign in, sign up, forgot password, reset password, change
+          password, enroll account, and link or remove of 3rd party OAuth
+          services.
+        </p>
+        <div class="two fluid ui buttons">
+          <a class="ui green icon button" href="https://github.com/meteor-useraccounts/core/blob/master/Guide.md" target="_blank">
+            <i class="file text outline icon"></i>
+            HAve a look at the Official Guide
+          </a>
+          <div class="or"></div>
+          <a class="ui purple icon button" href="https://useraccounts-meteorday.meteor.com" target="_blank">
+            <i class="file powerpoint outline icon"></i>
+            Play with the MeteorDay presentation
+          </a>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="one column row">
+      <div class="column">
+        <h1 class="ui center aligned dividing header">
+          Available Styles
+          <div class="sub header">
+            Easy to configure, heavily customizable, they simply work!
+          </div>
+        </h1>
+      </div>
+    </div>
+
+    <div class="one column row">
+      <div class="column">
+        <p>
+          Easily add accounts templates to your project, writing just a very few
+          lines of code.
+        </p>
+        <p>
+          All the logic, helpers, and events handlers are provided by the base package
+          <a href="https://atmospherejs.com/useraccounts/core" target="_blank">
+            useraccounts:core
+          </a>
+          so that UI templates can be easily styled for different frameworks
+          simply changing a few html lines!
+        </p>
+      </div>
+    </div>
+
+    {{#each frontends}}
+      <div class="column">
+        {{> frontendCard}}
+      </div>
+    {{/each}}
   </div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="panel panel-success">
-          <div class="panel-heading">
-            <h3 class="panel-title">Features</h3>
-          </div>
-          <div class="panel-body">
-            <ul>
-              <li>Custom Signup Fields</li>
-              <li>Client/Server Field Validation</li>
-              <li>accounts-meld easy integration</li>
-              <li>i18n Support</li>
-              <li>optionally configurable routes</li>
-              <li>all-in-one template (if you like)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-warning">
-          <div class="panel-heading">
-            <h3 class="panel-title">Todo list</h3>
-          </div>
-          <div class="panel-body">
-            <ul>
-              <li>Terms of Service / Privacy Policy</li>
-              <li>Change Password Support</li>
-              <li>Better Testing</li>
-              <li>'working' template option (e.g., while sending reset password email)</li>
-              <li>Configurable reset-password route</li>
-              <li>Configurable enroll-account route</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <h2>Bootstrap</h2>
-        <p>Install <a href="https://atmospherejs.com/package/accounts-templates-bootstrap">accounts-templates-bootstrap</a> to get <a href="http://getbootstrap.com/">Bootstrap</a> stylings and you're ready to go!</p>
-        <p>mrt add accounts-template-bootstrap</p>
-        <p><a class="btn btn-default" role="button" href="http://accounts-templates-bootstrap.meteor.com/">View live &raquo;</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Semantic UI</h2>
-        <p>Install <a href="https://atmospherejs.com/package/accounts-templates-semantic-ui">accounts-templates-semantic-ui</a> to get <a href="http://semantic-ui.com/">Semantic UI</a> stylings and enjoy it!</p>
-        <p>mrt add accounts-template-semantic-ui</p>
-        <p><a class="btn btn-default" role="button" href="http://accounts-templates-semantic-ui.meteor.com/">View live &raquo;</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Foundation</h2>
-        <p>If you like more <a href="http://foundation.zurb.com/">Foundation</a> install <a href="https://atmospherejs.com/package/accounts-templates-foundation">accounts-templates-foundation</a> and start developing!</p>
-        <p>mrt add accounts-template-foundation</p>
-        <p><a class="btn btn-default" role="button" href="http://accounts-templates-foundation.meteor.com/">View live &raquo;</a></p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <h2>Famo.us</h2>
-        <p>A jump into the future with <a href="https://famo.us/">Famo.us</a>? Install accounts-templates-famous, yes that simple!</p>
-        <p>mrt add accounts-template-famous</p>
-        <p><a class="btn btn-default disabled" role="button" href="http://accounts-templates-famous.meteor.com/">Coming Soon &raquo;</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Ionic</h2>
-        <p>Perhaps you're more into <a href="http://ionicframework.com/">Ionic</a>? Install accounts-templates-foundation and that's it!</p>
-        <p>mrt add accounts-template-ionic</p>
-        <p><a class="btn btn-default disabled" role="button" href="http://accounts-templates-ionic.meteor.com/">Coming Soon &raquo;</a></p>
-      </div>
-    </div>
-
-    </div>
-    <div id="footer">
-      <div class="container">
-        <hr>
-        <p class="text-muted">© Splendido 2014</p>
-      </div>
-    </div>
-  </template>
+</template>

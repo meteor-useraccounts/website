@@ -1,0 +1,45 @@
+<template name="frontendCard">
+	<h3 class="ui center aligned header">{{capName}}</h3>
+	<div class="ui fluid frontend card">
+		<div class="dimmable image">
+			<div class="ui dimmer">
+				<div class="content">
+					<div class="center">
+						<a class="ui inverted button" href="https://useraccounts-{{name}}.meteor.com/" target="_blank">
+							View Live
+						</a>
+					</div>
+				</div>
+			</div>
+			<img src="/imgs/{{name}}.gif">
+		</div>
+		<div class="content">
+			<a class="header" href="{{pkgUrl}}" target="_blank">useraccounts:{{name}}</a>
+			<div class="meta">
+				<a class="group">v{{version}}</a>
+			</div>
+			<div class="description">
+				<p>
+					{{{description}}}
+				</p>
+				<p class="cmd-line">
+					mrt add useraccounts:{{name}}
+				</p>
+			</div>
+		</div>
+		<div class="extra content">
+			<a class="right floated stars" href="{{pkgUrl}}" target="_blank">
+        {{#if starCount}}
+					<i class="star icon"></i>
+					{{starCount}}
+        {{/if}}
+			</a>
+			<div class="downloads">
+        {{#if installCount}}
+					<i class="cloud download icon"></i>
+					{{installCount}}
+        {{/if}}
+			</div>
+		</div>
+	</div>
+</template>
