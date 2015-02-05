@@ -37,51 +37,57 @@ Sample object got from the response
 }
 */
 
-Meteor.setTimeout(Meteor.http.get(
-  "https://atmospherejs.com/a/packages",
-  {
-    headers: {'Accept': 'application/json'}
-  },
-  function(error, response){
-    console.log("Getting packages data from atmosphere...");
-    // Goes through each package
-    if (!error) {
-      _.each(response.data, function(pkg){
-        var
-          pkgName = pkg.name.split(":"),
-          authorName = pkgName[0],
-          baseName = pkgName[1]
-        ;
-        if (authorName === "useraccounts") {
-          var frontend = Frontends.findOne({baseName: baseName});
-          if (frontend) {
-            console.dir(pkg);
-            var newFields = _.pick(pkg, 'name', 'starCount');
-            if (pkg.latestVersion && pkg.latestVersion.version) {
-              newFields.version = pkg.latestVersion.version;
+var getPkgData = function(){
+  Meteor.http.get(
+    "https://atmospherejs.com/a/packages",
+    {
+      headers: {'Accept': 'application/json'}
+    },
+    function(error, response){
+      console.log("Getting packages data from atmosphere...");
+      // Goes through each package
+      if (!error) {
+        _.each(response.data, function(pkg){
+          var
+            pkgName = pkg.name.split(":"),
+            authorName = pkgName[0],
+            baseName = pkgName[1]
+          ;
+          if (authorName === "useraccounts") {
+            var frontend = Frontends.findOne({baseName: baseName});
+            if (frontend) {
+              var newFields = _.pick(pkg, 'name', 'starCount');
+              if (pkg.latestVersion && pkg.latestVersion.version) {
+                newFields.version = pkg.latestVersion.version;
+              }
+              if (pkg["installs-per-year"]) {
+                newFields.count = pkg["installs-per-year"];
+              }
+              console.log('--');
+              console.dir(newFields);
+              Frontends.update(frontend._id, { $set: newFields });
             }
-            if (pkg["installs-per-year"]) {
-              newFields.count = pkg["installs-per-year"];
-            }
-            Frontends.update(frontend._id, { $set: newFields });
           }
-        }
-      });
+        });
+      }
     }
-  }
-), 2 * 3600 * 1000); // every two hours
+  );
+};
+
+getPkgData();
+Meteor.setInterval(getPkgData, 2 * 3600 * 1000); // every two hours
 
 
 Meteor.publish('frontends', function() {
   return Frontends.find({}, {
     fields: {
-        authorName: 1,
-        baseName: 1,
-        count: 1,
-        fUrl: 1,
-        name: 1,
-        starCount: 1,
-        version: 1,
+      authorName: 1,
+      baseName: 1,
+      count: 1,
+      fUrl: 1,
+      name: 1,
+      starCount: 1,
+      version: 1,
     }
   });
 });
