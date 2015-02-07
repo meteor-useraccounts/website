@@ -38,8 +38,11 @@ Sample object got from the response
 */
 
 var getPkgData = function(){
+  var pkgNames = _.map(frontends, function(frontend){
+    return frontend.authorName + ":" + frontend.baseName;
+  }).join(",");
   Meteor.http.get(
-    "https://atmospherejs.com/a/packages",
+    "https://atmospherejs.com/a/packages/findByNames?names=" + pkgNames,
     {
       headers: {'Accept': 'application/json'}
     },
@@ -75,7 +78,7 @@ var getPkgData = function(){
 };
 
 getPkgData();
-Meteor.setInterval(getPkgData, 2 * 3600 * 1000); // every two hours
+Meteor.setInterval(getPkgData, 3600 * 1000); // every hour
 
 
 Meteor.publish('frontends', function() {
