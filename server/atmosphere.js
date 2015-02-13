@@ -4,6 +4,7 @@ var frontends = [
   {authorName: "useraccounts", baseName: "bootstrap"  , fUrl: "http://getbootstrap.com/"},
   {authorName: "useraccounts", baseName: "foundation" , fUrl: "http://foundation.zurb.com/"},
   {authorName: "useraccounts", baseName: "ionic"      , fUrl: "http://ionicframework.com/"},
+  {authorName: "useraccounts", baseName: "materialize", fUrl: "http://materializecss.com/"},
   {authorName: "useraccounts", baseName: "polymer"    , fUrl: "https://www.polymer-project.org/"},
   {authorName: "useraccounts", baseName: "semantic-ui", fUrl: "http://semantic-ui.com/"},
   {authorName: "useraccounts", baseName: "ratchet"    , fUrl: "http://goratchet.com/"},
