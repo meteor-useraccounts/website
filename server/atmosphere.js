@@ -52,6 +52,7 @@ var getPkgData = function(){
       // Goes through each package
       if (!error) {
         _.each(response.data, function(pkg){
+          pkg.latestVersion.published = new Date(pkg.latestVersion.published.$date);
           var
             pkgName = pkg.name.split(":"),
             authorName = pkgName[0],
