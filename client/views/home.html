@@ -2,6 +2,7 @@
   <div class="ui stackable three column page grid">
     <div class="one column row">
       <div class="column">
+        <img class="ui centered small image" src="/imgs/ua-logo.png">
         <h1 class="ui center aligned dividing header">
           UserAccounts for Meteor
           <div class="sub header">
@@ -66,10 +67,14 @@
       </div>
     </div>
 
-    {{#each frontends}}
-      <div class="column">
-        {{> frontendCard}}
-      </div>
-    {{/each}}
+    {{#if frontendsReady}}
+      {{#each frontends}}
+        <div class="column">
+          {{> frontendCard}}
+        </div>
+      {{/each}}
+    {{else}}
+      <div class="ui active centered large inline loader"></div>
+    {{/if}}
   </div>
 </template>

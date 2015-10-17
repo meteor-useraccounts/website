@@ -48,7 +48,7 @@ var getPkgData = function(){
       headers: {'Accept': 'application/json'}
     },
     function(error, response){
-      console.log("Getting packages data from atmosphere...");
+      // console.log("Getting packages data from atmosphere...");
       // Goes through each package
       if (!error) {
         _.each(response.data, function(pkg){
@@ -68,8 +68,8 @@ var getPkgData = function(){
               if (pkg["installs-per-year"]) {
                 newFields.count = pkg["installs-per-year"];
               }
-              console.log('--');
-              console.dir(newFields);
+              // console.log('--');
+              // console.dir(newFields);
               Frontends.update(frontend._id, { $set: newFields });
             }
           }
